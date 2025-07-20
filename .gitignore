@@ -5,3 +5,10 @@ build/
 *.log
 dist/
 coverage/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.env.local
+.env.*.local
