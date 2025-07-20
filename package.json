@@ -1,0 +1,25 @@
+{
+  "name": "mcpclient-demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc && chmod 755 build/index.js",
+    "build-server": "tsc laravel-mcp-server.ts --outDir build && chmod 755 build/laravel-mcp-server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.56.0",
+    "@modelcontextprotocol/sdk": "^1.16.0",
+    "dotenv": "^17.2.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.15",
+    "typescript": "^5.8.3"
+  }
+}
