@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc && chmod 755 build/index.js",
-    "build-server": "tsc laravel-mcp-server.ts --outDir build && chmod 755 build/laravel-mcp-server.js"
+    "build-servers": "tsc servers/*.ts --outDir build && chmod +x build/servers/*.js"
   },
   "keywords": [],
   "author": "",

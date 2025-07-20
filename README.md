@@ -1,20 +1,21 @@
-# MCP Client Demo 🚀
+# MCP Client Framework 🚀
 
-A powerful Model Context Protocol (MCP) client that enables natural language interaction with Laravel applications through Claude AI.
+A universal Model Context Protocol (MCP) client that enables natural language interaction with various development frameworks through Claude AI.
 
 ## 🌟 Features
 
-- **Natural Language Commands**: Interact with your Laravel app using plain English
-- **Laravel Integration**: Built-in support for user management, Artisan commands, and database queries
+- **Natural Language Commands**: Interact with your applications using plain English
+- **Multi-Framework Support**: Built-in servers for Laravel, .NET, and Ruby on Rails
 - **MCP Protocol**: Leverages the Model Context Protocol for seamless AI-tool communication
 - **Interactive CLI**: Real-time command-line interface for continuous interaction
-- **Extensible**: Easy to add new tools and capabilities
+- **Extensible Architecture**: Easy to add support for new frameworks
+- **Framework-Specific Tools**: Tailored tools for each framework's unique features
 
 ## 📋 Prerequisites
 
 - Node.js 16+ 
 - PHP 8.0+
-- Laravel project
+- Your framework project (Laravel, .NET, Rails, etc.)
 - Anthropic API key
 
 ## 🛠️ Installation
@@ -60,15 +61,26 @@ Example with filesystem server:
 node build/index.js npx @modelcontextprotocol/server-filesystem /tmp
 ```
 
-### Laravel Integration
+### Framework-Specific Servers
 
-Use the custom Laravel MCP server:
-
+#### Laravel
 ```bash
-node build/index.js node build/laravel-mcp-server.js /path/to/your/laravel/project
+node build/index.js node build/servers/laravel-mcp-server.js /path/to/your/laravel/project
 ```
 
-## 🎯 Available Laravel Tools
+#### .NET / ASP.NET Core
+```bash
+node build/index.js node build/servers/dotnet-mcp-server.js /path/to/your/dotnet/project
+```
+
+#### Ruby on Rails
+```bash
+node build/index.js node build/servers/rails-mcp-server.js /path/to/your/rails/project
+```
+
+## 🎯 Available Tools by Framework
+
+### Laravel Tools
 
 ### 1. User Management (`create_user`)
 Create new users with natural language:
@@ -89,6 +101,75 @@ Query your database naturally:
 - "Show users table"
 - "Count posts in database"
 - "Find users where role is admin"
+
+### .NET Tools
+
+#### 1. Controller Management (`create_controller`)
+Create ASP.NET Core controllers:
+- "Create a Products controller"
+- "Add a controller named Admin with custom actions"
+- "Generate UserController with CRUD actions"
+
+#### 2. .NET CLI Commands (`run_dotnet`)
+Execute any .NET CLI command:
+- "Build the project"
+- "Run tests"
+- "Start the application"
+- "Clean the solution"
+
+#### 3. NuGet Package Management (`add_package`)
+Manage project dependencies:
+- "Add Entity Framework Core"
+- "Install Newtonsoft.Json version 13.0.1"
+- "Add Serilog for logging"
+
+#### 4. Entity Creation (`create_entity`)
+Create Entity Framework Core models:
+- "Create a Product entity with name and price"
+- "Generate User model with email and password"
+- "Add Customer entity with address properties"
+
+#### 5. CRUD Scaffolding (`scaffold_crud`)
+Generate complete CRUD operations:
+- "Scaffold CRUD for Product model"
+- "Generate controller and views for Customer"
+
+### Ruby on Rails Tools
+
+#### 1. Model Generation (`generate_model`)
+Create Rails models with migrations:
+- "Generate a Post model with title and content"
+- "Create User model with email and admin boolean"
+- "Add Product with name, price, and category reference"
+
+#### 2. Rails Commands (`run_rails`)
+Execute Rails commands:
+- "Run database migrations"
+- "Start the Rails server"
+- "Show routes"
+- "Run console"
+
+#### 3. Controller Generation (`generate_controller`)
+Create Rails controllers:
+- "Generate Posts controller with index and show"
+- "Create Admin controller"
+- "Add API controller for products"
+
+#### 4. User Management (`create_user`)
+Create users via Rails console:
+- "Create admin user with email admin@example.com"
+- "Add user John with custom attributes"
+
+#### 5. Scaffolding (`scaffold`)
+Generate complete resources:
+- "Scaffold a Blog with title and content"
+- "Create Product resource with all attributes"
+
+#### 6. Database Console (`db_console`)
+Query database through Rails:
+- "Show all users"
+- "Find posts where published is true"
+- "Count total products"
 
 ## 💡 Example Session
 
@@ -137,11 +218,15 @@ Disconnected from MCP server.
 
 ```
 mcpclient-demo/
-├── MCPClient.ts          # Core MCP client implementation
-├── index.ts              # CLI interface
-├── laravel-mcp-server.ts # Laravel-specific MCP server
-├── package.json          # Project dependencies
-└── tsconfig.json         # TypeScript configuration
+├── MCPClient.ts              # Core MCP client implementation
+├── index.ts                  # CLI interface
+├── servers/                  # Framework-specific MCP servers
+│   ├── base-mcp-server.ts    # Base class for all MCP servers
+│   ├── laravel-mcp-server.ts # Laravel server implementation
+│   ├── dotnet-mcp-server.ts  # .NET server implementation
+│   └── rails-mcp-server.ts   # Rails server implementation
+├── package.json              # Project dependencies
+└── tsconfig.json             # TypeScript configuration
 ```
 
 ## 🔧 Development
@@ -156,13 +241,37 @@ npm run build
 npm run build-server
 ```
 
-### Adding New Tools
+### Creating Your Own Framework Server
 
-To add new tools to the Laravel MCP server, modify `laravel-mcp-server.ts`:
+To add support for a new framework:
 
-1. Add tool definition in `setupToolHandlers()`
-2. Implement the tool handler method
-3. Add appropriate validation with Zod schemas
+1. Create a new file in `servers/` directory
+2. Extend the `BaseMCPServer` class
+3. Implement the `initializeTools()` method
+4. Register your framework-specific tools
+
+Example structure:
+```typescript
+import { BaseMCPServer } from "./base-mcp-server.js";
+
+export class MyFrameworkMCPServer extends BaseMCPServer {
+  constructor(projectPath: string) {
+    super("myframework-mcp-server", "1.0.0", projectPath);
+  }
+
+  protected initializeTools() {
+    this.registerTool({
+      name: "my_tool",
+      description: "Description of what this tool does",
+      inputSchema: { /* JSON Schema */ },
+      handler: async (args) => {
+        // Tool implementation
+        return "Result";
+      },
+    });
+  }
+}
+```
 
 ## 🤝 Contributing
 
@@ -176,4 +285,5 @@ This project is licensed under the ISC License.
 
 - Built with [Anthropic's MCP SDK](https://github.com/anthropics/model-context-protocol)
 - Powered by Claude AI
-- Laravel framework integration
+- Support for multiple development frameworks
+- Extensible architecture for adding new frameworks

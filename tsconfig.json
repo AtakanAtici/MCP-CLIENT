@@ -10,6 +10,6 @@
       "skipLibCheck": true,
       "forceConsistentCasingInFileNames": true
     },
-    "include": ["index.ts", "laravel-mcp-server.ts", "MCPClient.ts"],
+    "include": ["index.ts", "MCPClient.ts", "servers/**/*.ts"],
     "exclude": ["node_modules"]
   }
